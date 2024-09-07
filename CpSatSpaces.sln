@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CpSatSpaces", "CpSatSpaces\CpSatSpaces.csproj", "{1EC6BADD-4834-47EE-9F8D-EE017B4947F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CpSatSpaces.Tests", "CpSatSpaces.Tests\CpSatSpaces.Tests.csproj", "{2A64F596-2C75-458F-BDDC-55A672AE350C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1EC6BADD-4834-47EE-9F8D-EE017B4947F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EC6BADD-4834-47EE-9F8D-EE017B4947F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EC6BADD-4834-47EE-9F8D-EE017B4947F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EC6BADD-4834-47EE-9F8D-EE017B4947F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A64F596-2C75-458F-BDDC-55A672AE350C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A64F596-2C75-458F-BDDC-55A672AE350C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A64F596-2C75-458F-BDDC-55A672AE350C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A64F596-2C75-458F-BDDC-55A672AE350C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
