@@ -10,9 +10,9 @@ public readonly struct SpatialIndex : IEnumerable<DimensionIndex>, ISpace, IEqua
     /// <summary>
     /// Gets the dimensions of this spatial index.
     /// </summary>
-    public IImmutableList<Dimension> Dimensions => DimensionIndices
+    public ImmutableSortedSet<Dimension> Dimensions => DimensionIndices
         .Select(index => index.Dimension)
-        .ToImmutableArray();
+        .ToImmutableSortedSet();
 
     /// <summary>
     /// Returns the index of the given dimension in this spatial index.

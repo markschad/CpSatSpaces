@@ -1,6 +1,6 @@
 ﻿namespace Mms.CpSat.Spaces;
 
-public readonly struct Dimension(int size, string label)
+public readonly struct Dimension(int size, string label) : IComparable<Dimension>, IEquatable<Dimension>
 {
     /// <summary>
     /// The size of this dimension.
@@ -40,6 +40,13 @@ public readonly struct Dimension(int size, string label)
     public static bool operator !=(Dimension left, Dimension right)
     {
         return !(left == right);
+    }
+
+    public int CompareTo(Dimension other)
+    {
+        var labelComparison = string.Compare(Label, other.Label, StringComparison.Ordinal);
+        if (labelComparison != 0) return labelComparison;
+        return Id.CompareTo(other.Id);
     }
 }
 
