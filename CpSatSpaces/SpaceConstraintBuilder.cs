@@ -73,12 +73,28 @@ public class SpaceConstraintBuilder<TVarL, TVarR>(CpModel model) :
 
     public void IsExactly(long rightSideTargetValue)
     {
-        throw new NotImplementedException();
+        ApplyConstraint((leftVar, rightVars) =>
+        {
+            var leftSideConstraintVar = GetLeftSideConstraintVar(leftVar);
+            
+            model.Add(LinearExpr.Sum(rightVars) == rightSideTargetValue)
+                .OnlyEnforceIf(leftSideConstraintVar);
+            model.Add(LinearExpr.Sum(rightVars) != rightSideTargetValue)
+                .OnlyEnforceIf(leftSideConstraintVar.Not());
+        });
     }
 
     public void IsAtMost(long rightSideTargetValue)
     {
-        throw new NotImplementedException();
+        ApplyConstraint((leftVar, rightVars) =>
+        {
+            var leftSideConstraintVar = GetLeftSideConstraintVar(leftVar);
+            
+            model.Add(LinearExpr.Sum(rightVars) <= rightSideTargetValue)
+                .OnlyEnforceIf(leftSideConstraintVar);
+            model.Add(LinearExpr.Sum(rightVars) > rightSideTargetValue)
+                .OnlyEnforceIf(leftSideConstraintVar.Not());
+        });
     }
 
     public void IsAtLeast(long rightSideTargetValue)

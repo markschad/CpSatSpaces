@@ -5,12 +5,19 @@ namespace Mms.CpSat.Spaces;
 
 public readonly struct SpatialIndex : IEnumerable<DimensionIndex>, ISpace, IEquatable<SpatialIndex>
 {
-    public DimensionIndex[] Indices { get; }
+    public DimensionIndex[] DimensionIndices { get; }
 
     /// <summary>
     /// Gets the dimensions of this spatial index.
     /// </summary>
-    public IImmutableList<Dimension> Dimensions => Indices.Select(index => index.Dimension).ToImmutableArray();
+    public IImmutableList<Dimension> Dimensions => DimensionIndices
+        .Select(index => index.Dimension)
+        .ToImmutableArray();
+
+    /// <summary>
+    /// Returns the index of the given dimension in this spatial index.
+    /// </summary>
+    public int this[Dimension dimension] => GetDimensionIndex(dimension);
 
 
     public SpatialIndex(params DimensionIndex[] indices)
@@ -29,7 +36,15 @@ public readonly struct SpatialIndex : IEnumerable<DimensionIndex>, ISpace, IEqua
 
         // Sort dimensions by Id.
         var sortedIndices = indices.OrderBy(index => index.Dimension.Id).ToArray();
-        Indices = sortedIndices;
+        DimensionIndices = sortedIndices;
+    }
+    
+    /// <summary>
+    /// Returns the index of the given dimension in this spatial index.
+    /// </summary>
+    public int GetDimensionIndex(Dimension dimension)
+    {
+        return DimensionIndices.Single(index => index.Dimension == dimension).Index;
     }
 
     /// <summary>
@@ -56,10 +71,10 @@ public readonly struct SpatialIndex : IEnumerable<DimensionIndex>, ISpace, IEqua
         var flattenedIndex = 0;
         var multiplier = 1;
 
-        for (int i = Indices.Length - 1; i >= 0; i--)
+        for (int i = DimensionIndices.Length - 1; i >= 0; i--)
         {
-            flattenedIndex += Indices[i].Index * multiplier;
-            multiplier *= Indices[i].Dimension.Size;
+            flattenedIndex += DimensionIndices[i].Index * multiplier;
+            multiplier *= DimensionIndices[i].Dimension.Size;
         }
 
         return flattenedIndex;
@@ -71,7 +86,7 @@ public readonly struct SpatialIndex : IEnumerable<DimensionIndex>, ISpace, IEqua
     /// </summary>
     public SpatialIndex Extract(Dimension[] dimensions)
     {
-        var extractedIndices = Indices.Where(index => dimensions.Contains(index.Dimension)).ToArray();
+        var extractedIndices = DimensionIndices.Where(index => dimensions.Contains(index.Dimension)).ToArray();
         return new SpatialIndex(extractedIndices);
     }
 
@@ -80,7 +95,7 @@ public readonly struct SpatialIndex : IEnumerable<DimensionIndex>, ISpace, IEqua
     /// </summary>
     public SpatialIndex Concat(SpatialIndex other)
     {
-        var concatenatedIndices = Indices.Concat(other.Indices).ToArray();
+        var concatenatedIndices = DimensionIndices.Concat(other.DimensionIndices).ToArray();
         return new SpatialIndex(concatenatedIndices);
     }
     
@@ -91,10 +106,10 @@ public readonly struct SpatialIndex : IEnumerable<DimensionIndex>, ISpace, IEqua
             return false;
         }
 
-        return !Indices
+        return !DimensionIndices
             .Where((t, i) => 
-                t.Index != other.Indices[i].Index || 
-                t.Dimension != other.Indices[i].Dimension)
+                t.Index != other.DimensionIndices[i].Index || 
+                t.Dimension != other.DimensionIndices[i].Dimension)
             .Any();
     }
 
@@ -105,7 +120,7 @@ public readonly struct SpatialIndex : IEnumerable<DimensionIndex>, ISpace, IEqua
 
     public override int GetHashCode()
     {
-        return Indices.GetHashCode();
+        return DimensionIndices.GetHashCode();
     }
     
     public static bool operator ==(SpatialIndex left, SpatialIndex right)
@@ -118,16 +133,16 @@ public readonly struct SpatialIndex : IEnumerable<DimensionIndex>, ISpace, IEqua
         return !(left == right);
     }
 
-    public static implicit operator DimensionIndex[](SpatialIndex spatialIndex) => spatialIndex.Indices;
+    public static implicit operator DimensionIndex[](SpatialIndex spatialIndex) => spatialIndex.DimensionIndices;
     
     public override string ToString()
     {
-        return "{ " + string.Join(", ", Indices.Select(index => index.ToString())) + " }";
+        return "{ " + string.Join(", ", DimensionIndices.Select(index => index.ToString())) + " }";
     }
 
     public IEnumerator<DimensionIndex> GetEnumerator()
     {
-        return ((IEnumerable<DimensionIndex>)Indices).GetEnumerator();
+        return ((IEnumerable<DimensionIndex>)DimensionIndices).GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
