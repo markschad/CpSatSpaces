@@ -14,7 +14,7 @@ public abstract class VarSpace<TVar>(params Dimension[] dimensions) : Space<TVar
             throw new ArgumentException("The given spatial index does not have the same dimensions as this space.");
         }
         
-        var varLabels = spatialIndex.Indices
+        var varLabels = spatialIndex.DimensionIndices
             .OrderBy(di => di.Dimension.Label)
             .Select(di => $"{di.Dimension.Label}_{di.Index}")
             .ToArray();

@@ -1,11 +1,12 @@
-﻿using System.Collections.Immutable;
+﻿using System.Collections;
+using System.Collections.Immutable;
 using System.Diagnostics;
 
 namespace Mms.CpSat.Spaces;
 
 public interface ISpace
 {
-    IImmutableList<Dimension> Dimensions { get; }
+    ImmutableSortedSet<Dimension> Dimensions { get; }
 
     IEnumerable<SpatialIndex> IndicesAsEnumerable();
 
@@ -41,26 +42,24 @@ public interface ISpace
 
 public class Space : ISpace
 {
-    public IImmutableList<Dimension> Dimensions { get; }
+    public ImmutableSortedSet<Dimension> Dimensions { get; }
 
     protected readonly Space? ParentSpace;
     protected readonly SpatialIndex ParentSpaceMapping;
 
     public Space(params Dimension[] dimensions)
     {
-        Dimensions = dimensions
-            .OrderBy(d => d.Id)
-            .ToImmutableArray();
+        Dimensions = dimensions.ToImmutableSortedSet();
     }
 
-    public Space(IImmutableList<Dimension> dimensions)
+    public Space(IEnumerable<Dimension> dimensions)
     {
-        Dimensions = dimensions.OrderBy(d => d.Id).ToImmutableArray();
+        Dimensions = dimensions.ToImmutableSortedSet();
     }
 
-    protected Space(IImmutableList<Dimension> dimensions, Space parentSpace, SpatialIndex parentSpaceMapping)
+    protected Space(IEnumerable<Dimension> dimensions, Space parentSpace, SpatialIndex parentSpaceMapping)
     {
-        Dimensions = dimensions;
+        Dimensions = dimensions.ToImmutableSortedSet();
         ParentSpace = parentSpace;
         ParentSpaceMapping = parentSpaceMapping;
     }
