@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch: # Allows the workflow to be run manually
+  workflow_dispatch:
 
 jobs:
   build:
@@ -42,3 +42,4 @@ jobs:
             echo "All tests passed. ✅"
           else
             echo "Some tests failed. ❌"
+          fi
