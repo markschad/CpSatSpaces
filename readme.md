@@ -28,35 +28,14 @@ var model = new CpModel();
 
 // If an employee does not have a qualification, they WILL BE not qualified for the task
 model.AddSpaceConstraint(employeeTaskQualificationSpace)
-    .WilleBe(0)
+    .WilleBeTrue()
     .If(employeeQualificationAllocation)
-    .IsExactly(0);
+    .HasTrueCountOfExactly(0);
 
 // If an employee does have a qualification, they CAN BE qualified for the task
 model.AddSpaceConstraint()
     .InWhich(employeeTaskQualificationSpace)
-    .CanBe(0)
+    .CanBeTrue()
     .If(employeeQualificationAllocation)
-    .IsAtleast(1);
-
-// If a task does not require a qualification, an employee WILL BE qualified for it.
-model.AddSpaceConstraint()
-    .InWhich(employeeTaskQualificationSpace)
-    .WillBe(1)
-    .If(taskQualificationAllocation)
-    .IsExactly(0);
-
-// If a task requires a qualification, an employee CAN BE qualified for it.
-model.AddSpaceConstraint()
-    .InWhich(employeeTaskQualificationSpace)
-    .CanBe(1)
-    .If(taskQualificationAllocation)
-    .IsAtleast(1);
-
-
-
-```
-
-
-var space = new IntVarSpace(0, 10);
+    .HasTrueCountOfAtleast(1);
 ```
