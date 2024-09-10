@@ -7,19 +7,18 @@ using Google.OrTools.ConstraintSolver;
 using Google.OrTools.Sat;
 using JetBrains.Annotations;
 using Mms.CpSat.Spaces;
+using Mms.CpSat.Spaces.ConstraintBuilder;
 using Xunit;
 using Xunit.Abstractions;
 using IntVar = Google.OrTools.Sat.IntVar;
 
 namespace CpSatSpaces.Tests;
 
-[TestSubject(typeof(SpaceConstraintBuilder<,>))]
-public class SpaceConstraintBuilderTest
+[TestSubject(typeof(LeftTargetSelectorIntVar))]
+[TestSubject(typeof(RightSpaceSelector<IntVar>))]
+[TestSubject(typeof(RightConditionSelectorIntVar<IntVar>))]
+public class ConstraintBuilderTest
 {
-    /// <summary>
-    /// Tests the <see cref="SpaceConstraintBuilder{T1,T2}.WillBe"/> method to ensure values are correctly set in the
-    /// left-side space based on constraints on the right-side space.
-    /// </summary>
     public class WillBeTests
     {
         private readonly ITestOutputHelper _testOutputHelper;
@@ -55,15 +54,13 @@ public class SpaceConstraintBuilderTest
         public void SolvesWithExpectedValue_WhenPairedWith_IsExactly()
         {
             // Arrange
-            var spaceConstraintBuilder = new SpaceConstraintBuilder<IntVar, IntVar>(_fixture.Model);
             var solver = new CpSolver();
             
             // Act
-            spaceConstraintBuilder
-                .InWhich(_fixture.SpaceAbc)
+            new LeftTargetSelectorIntVar(_fixture.Model, _fixture.SpaceAbc)
                 .WillBe(1)
-                .If(_fixture.SpaceCd)
-                .IsExactly(10);
+                .OnlyIf(_fixture.SpaceCd)
+                .SumsToExactly(10);
             var solverStatus = solver.Solve(_fixture.Model);
 
             // Assert
@@ -113,15 +110,13 @@ public class SpaceConstraintBuilderTest
         public void SolvesWithExpectedValue_WhenPairedWith_AtMost()
         {
             // Arrange
-            var spaceConstraintBuilder = new SpaceConstraintBuilder<IntVar, IntVar>(_fixture.Model);
             var solver = new CpSolver();
             
             // Act
-            spaceConstraintBuilder
-                .InWhich(_fixture.SpaceAbc)
+            new LeftTargetSelectorIntVar(_fixture.Model, _fixture.SpaceAbc)
                 .WillBe(1)
-                .If(_fixture.SpaceCd)
-                .IsAtMost(10);
+                .OnlyIf(_fixture.SpaceCd)
+                .SumsToAtMost(10);
             var solverStatus = solver.Solve(_fixture.Model);
 
             // Assert

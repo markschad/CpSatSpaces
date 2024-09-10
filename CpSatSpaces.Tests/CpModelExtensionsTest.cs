@@ -37,21 +37,10 @@ public class CpModelExtensionsTest
     [Fact]
     public void OnAlignedDimensions_AddsExpectedConstraints()
     {
-        _model.AddSpaceConstraint<BoolVar, BoolVar>()
-            .InWhich(SpaceAbc)
-            .WillBe(0)
-            .If(SpaceBcd)
-            .IsAtLeast(1);
-        
-        // // Arrange
-        // _model.AddSpaceConstraint(SpaceAbc, SpaceBcd)
-        //     .OnAlignedDimensions((v, w) =>
-        //     {
-        //         _model.Add(LinearExpr.Sum(w) > 0)
-        //             .OnlyEnforceIf(v);
-        //         _model.Add(LinearExpr.Sum(w) == 0)
-        //             .OnlyEnforceIf(v.Not());
-        //     });
+        _model.AddConstraintThatSpace(SpaceAbc)
+            .WillBeFalse()
+            .OnlyIf(SpaceBcd)
+            .HasTrueCountOfAtLeast(1);
 
         var b = 1;
         foreach (var v in SpaceBcd.ValuesAsEnumerable())
@@ -86,7 +75,5 @@ public class CpModelExtensionsTest
                     .Should().BeFalse();
             }
         }
-        
-
     }
 }
