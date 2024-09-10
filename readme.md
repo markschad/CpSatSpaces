@@ -28,7 +28,7 @@ var model = new CpModel();
 
 // If an employee does not have a qualification, they WILL BE not qualified for the task
 model.AddSpaceConstraint(employeeTaskQualificationSpace)
-    .WilleBeTrue()
+    .WillNotBeTrue()
     .If(employeeQualificationAllocation)
     .HasTrueCountOfExactly(0);
 

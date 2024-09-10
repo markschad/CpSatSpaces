@@ -1,0 +1,44 @@
+﻿name: Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: # Allows the workflow to be run manually
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET 8.0
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build the solution
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test --configuration Release --no-build --verbosity normal ./CpSatSpaces.Tests/CpSatSpaces.Tests.csproj
+
+  result:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Determine Test Result
+        run: |
+          if [ "${{ needs.build.result }}" == "success" ]; then
+            echo "All tests passed. ✅"
+          else
+            echo "Some tests failed. ❌"
