@@ -1,10 +1,10 @@
 ﻿namespace Mms.CpSat.Spaces;
 
-public struct SpatialIndexValue<TVar>(SpatialIndex index, Space<TVar> space)
+public readonly struct SpatialIndexValue<TVar>(SpatialIndex index, Space<TVar> space)
 {
-    public SpatialIndex Index = index;
+    public readonly SpatialIndex Index = index;
 
-    public Space<TVar> Space = space;
+    public readonly Space<TVar> Space = space;
 
     public TVar GetValue()
     {
