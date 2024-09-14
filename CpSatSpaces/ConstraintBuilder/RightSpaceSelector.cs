@@ -12,7 +12,7 @@ public delegate void ApplyConstraint<in TLeftVar, TRightVar>(TLeftVar leftVar, I
 
 public class RightSpaceSelector<TLeftVar>(
     CpModel model,
-    VarSpace<TLeftVar> leftSpace,
+    Space<TLeftVar> leftSpace,
     GenerateLeftConstraint<TLeftVar> generateLeftConstraint)
     where TLeftVar : IntVar
 {

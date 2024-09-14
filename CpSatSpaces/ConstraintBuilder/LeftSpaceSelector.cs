@@ -5,12 +5,12 @@ namespace Mms.CpSat.Spaces.ConstraintBuilder;
 
 public sealed class LeftSpaceSelector(CpModel model)
 {
-    public LeftTargetSelectorIntVar InWhich(VarSpace<IntVar> leftSpace)
+    public LeftTargetSelectorIntVar InWhich(Space<IntVar> leftSpace)
     {
         return new LeftTargetSelectorIntVar(model, leftSpace);
     }
     
-    public LeftTargetSelectorBoolVar InWhich(VarSpace<BoolVar> leftSpace)
+    public LeftTargetSelectorBoolVar InWhich(Space<BoolVar> leftSpace)
     {
         return new LeftTargetSelectorBoolVar(model, leftSpace);
     }

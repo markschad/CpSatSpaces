@@ -8,7 +8,7 @@ public class IntersectionSpaceSelectorOne<TVar1>(
     VarSpace<TVar1> space1)
     where TVar1 : IntVar
 {
-    public IntersectionSpaceSelectorTwo<TVar1, TVar2> And<TVar2>(VarSpace<TVar2> space2)
+    public IntersectionSpaceSelectorTwo<TVar1, TVar2> And<TVar2>(Space<TVar2> space2)
         where TVar2 : IntVar
     {
         return new IntersectionSpaceSelectorTwo<TVar1, TVar2>(model, space1, space2);
@@ -22,8 +22,8 @@ public delegate void FormConstraintTwo<TVar1, TVar2>(CpModel model, SpatialIndex
 
 public class IntersectionSpaceSelectorTwo<TVar1, TVar2>(
     CpModel model,
-    VarSpace<TVar1> space1,
-    VarSpace<TVar2> space2)
+    Space<TVar1> space1,
+    Space<TVar2> space2)
     where TVar1 : IntVar
     where TVar2 : IntVar
 {
@@ -42,7 +42,7 @@ public class IntersectionSpaceSelectorTwo<TVar1, TVar2>(
         }
     }
 
-    public IntersectionSpaceSelectorThree<TVar1, TVar2, TVar3> And<TVar3>(VarSpace<TVar3> space3)
+    public IntersectionSpaceSelectorThree<TVar1, TVar2, TVar3> And<TVar3>(Space<TVar3> space3)
         where TVar3 : IntVar
     {
         return new IntersectionSpaceSelectorThree<TVar1, TVar2, TVar3>(model, space1, space2, space3);
@@ -58,9 +58,9 @@ public delegate void FormConstraintThree<TVar1, TVar2, TVar3>(CpModel model, Spa
 
 public class IntersectionSpaceSelectorThree<TVar1, TVar2, TVar3>(
     CpModel model,
-    VarSpace<TVar1> space1,
-    VarSpace<TVar2> space2,
-    VarSpace<TVar3> space3)
+    Space<TVar1> space1,
+    Space<TVar2> space2,
+    Space<TVar3> space3)
     where TVar1 : IntVar
     where TVar2 : IntVar
     where TVar3 : IntVar
