@@ -63,7 +63,7 @@ public class Space : ISpace
         ParentSpace = parentSpace;
         ParentSpaceMapping = parentSpaceMapping;
     }
-    
+   
     public SpatialIndex GetParentSpatialIndex(SpatialIndex spatialIndex)
     {
         if (ParentSpace == null)
@@ -77,6 +77,21 @@ public class Space : ISpace
         }
 
         return ParentSpaceMapping.Concat(spatialIndex);
+    }
+    
+    public SpatialIndex GetParentSpatialIndex()
+    {
+        if (ParentSpace == null)
+        {
+            throw new ArgumentException("Space is not a sub-space.");
+        }
+
+        var originIndex = Dimensions
+            .Select(d => new DimensionIndex(d, 0))
+            .ToArray();
+        var subSpaceOrigin = new SpatialIndex(originIndex);
+        
+        return ParentSpaceMapping.Concat(subSpaceOrigin);
     }
 
     /// <summary>

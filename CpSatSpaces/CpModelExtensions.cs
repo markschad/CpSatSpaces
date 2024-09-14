@@ -12,13 +12,8 @@ public static class CpModelExtensions
         varSpace.InitializeVars(model);
     }
 
-    public static LeftTargetSelectorIntVar AddConstraintThatSpace(this CpModel model, IntVarSpace leftSpace)
+    public static LeftSpaceSelector AddSpaceConstraint(this CpModel model)
     {
-        return new LeftTargetSelectorIntVar(model, leftSpace);
-    }
-    
-    public static LeftTargetSelectorBoolVar AddConstraintThatSpace(this CpModel model, BoolVarSpace leftSpace)
-    {
-        return new LeftTargetSelectorBoolVar(model, leftSpace);
+        return new LeftSpaceSelector(model);
     }
 }

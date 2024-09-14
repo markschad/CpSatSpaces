@@ -3,7 +3,7 @@
 namespace Mms.CpSat.Spaces.ConstraintBuilder;
 
 
-public sealed class LeftTargetSelectorIntVar(CpModel model, VarSpace<IntVar> leftSpace)
+public sealed class LeftTargetSelectorIntVar(CpModel model, Space<IntVar> leftSpace)
 {
     /// <summary>
     /// The variable in the left-space must be equal to the target value if the right-space condition is met.
@@ -38,9 +38,15 @@ public sealed class LeftTargetSelectorIntVar(CpModel model, VarSpace<IntVar> lef
             return leftSideConstraintVar;
         });
     }
+    
+    public IntersectionSpaceSelectorTwo<IntVar, TVar2> And<TVar2>(Space<TVar2> space2)
+        where TVar2 : IntVar
+    {
+        return new IntersectionSpaceSelectorTwo<IntVar, TVar2>(model, leftSpace, space2);
+    }
 }
 
-public sealed class LeftTargetSelectorBoolVar(CpModel model, VarSpace<BoolVar> leftSpace)
+public sealed class LeftTargetSelectorBoolVar(CpModel model, Space<BoolVar> leftSpace)
 {
     /// <summary>
     /// The variable in the left-space must be true if the right-space condition is met.
@@ -108,5 +114,11 @@ public sealed class LeftTargetSelectorBoolVar(CpModel model, VarSpace<BoolVar> l
 
             return leftSideConstraintVar;
         });
+    }
+    
+    public IntersectionSpaceSelectorTwo<BoolVar, TVar2> And<TVar2>(Space<TVar2> space2)
+        where TVar2 : IntVar
+    {
+        return new IntersectionSpaceSelectorTwo<BoolVar, TVar2>(model, leftSpace, space2);
     }
 }

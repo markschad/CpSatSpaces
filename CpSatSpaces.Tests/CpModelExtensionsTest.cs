@@ -37,7 +37,8 @@ public class CpModelExtensionsTest
     [Fact]
     public void OnAlignedDimensions_AddsExpectedConstraints()
     {
-        _model.AddConstraintThatSpace(SpaceAbc)
+        _model.AddSpaceConstraint()
+            .InWhich(SpaceAbc)
             .WillBeFalse()
             .OnlyIf(SpaceBcd)
             .HasTrueCountOfAtLeast(1);

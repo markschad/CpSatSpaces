@@ -6,14 +6,14 @@ namespace Mms.CpSat.Spaces.ConstraintBuilder;
 
 public abstract class RightConditionSelector<TLeftVar, TRightVar>(
     CpModel model,
-    VarSpace<TLeftVar> leftSpace,
-    VarSpace<TRightVar> rightSpace)
+    Space<TLeftVar> leftSpace,
+    Space<TRightVar> rightSpace)
     where TLeftVar : IntVar
     where TRightVar : IntVar
 {
     protected CpModel Model { get; } = model;
-    protected VarSpace<TLeftVar> LeftSpace { get; } = leftSpace;
-    protected VarSpace<TRightVar> RightSpace { get; } = rightSpace;
+    protected Space<TLeftVar> LeftSpace { get; } = leftSpace;
+    protected Space<TRightVar> RightSpace { get; } = rightSpace;
     
     protected void ApplyConstraintToEachLeftVar(ApplyConstraint<TLeftVar, TRightVar> applyConstraint)
     {
@@ -37,9 +37,9 @@ public abstract class RightConditionSelector<TLeftVar, TRightVar>(
 
 public class RightConditionSelectorIntVar<TLeftVar>(
     CpModel model,
-    VarSpace<TLeftVar> leftSpace,
+    Space<TLeftVar> leftSpace,
     GenerateLeftConstraint<TLeftVar> generateLeftConstraint,
-    IntVarSpace rightSpace)
+    Space<IntVar> rightSpace)
     : RightConditionSelector<TLeftVar, IntVar>(model, leftSpace, rightSpace)
     where TLeftVar : IntVar
 {
@@ -85,9 +85,9 @@ public class RightConditionSelectorIntVar<TLeftVar>(
 
 public class RightConditionSelectorBoolVar<TLeftVar>(
     CpModel model,
-    VarSpace<TLeftVar> leftSpace,
+    Space<TLeftVar> leftSpace,
     GenerateLeftConstraint<TLeftVar> generateLeftConstraint,
-    BoolVarSpace rightSpace)
+    Space<BoolVar> rightSpace)
     : RightConditionSelector<TLeftVar, BoolVar>(model, leftSpace, rightSpace)
     where TLeftVar : IntVar
 {

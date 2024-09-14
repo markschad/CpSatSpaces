@@ -55,7 +55,8 @@ public class ConstraintBuilderTest
         var solver = new CpSolver();
 
         // Act
-        new LeftTargetSelectorIntVar(_fixture.Model, _fixture.SpaceAbc)
+        new LeftSpaceSelector(_fixture.Model)
+            .InWhich(_fixture.SpaceAbc)
             .WillBe(1)
             .OnlyIf(_fixture.SpaceCd)
             .SumsToExactly(10);
@@ -110,7 +111,8 @@ public class ConstraintBuilderTest
         var solver = new CpSolver();
 
         // Act
-        new LeftTargetSelectorIntVar(_fixture.Model, _fixture.SpaceAbc)
+        new LeftSpaceSelector(_fixture.Model)
+            .InWhich(_fixture.SpaceAbc)
             .WillBe(1)
             .OnlyIf(_fixture.SpaceCd)
             .SumsToAtMost(10);
@@ -156,5 +158,39 @@ public class ConstraintBuilderTest
             (_fixture.DimC, 3)
         ];
         solver.Value(_fixture.SpaceAbc.GetValue(new SpatialIndex(di))).Should().NotBe(1);
+    }
+
+    [Fact]
+    public void IntersectionSpaceSelector_FormsConstraint_WithCorrectVars()
+    {
+        // Arrange
+        var dimA = new Dimension(4, "A");
+        var dimB = new Dimension(5, "B");
+        var dimC = new Dimension(6, "C");
+        var dimD = new Dimension(3, "D");
+        var dimE = new Dimension(3, "E");
+        
+        var spaceAde = new IntVarSpace(0, 10,dimA, dimD, dimE);
+        var spaceBde = new IntVarSpace(0, 10, dimB, dimD, dimE);
+        var spaceCde = new IntVarSpace(0, 10, dimC, dimD, dimE);
+        
+        var model = new CpModel();
+        model.InitSpace(spaceAde);
+        model.InitSpace(spaceBde);
+        model.InitSpace(spaceCde);
+        
+        // Act
+        model.AddSpaceConstraint()
+            .InWhich(spaceAde)
+            .And(spaceBde)
+            .And(spaceCde)
+            .FormConstraint((m, si, ade, bde, cde) =>
+            {
+                // Assert
+                ade.ValuesAsEnumerable().Count().Should().Be(4);
+                bde.ValuesAsEnumerable().Count().Should().Be(5);
+                cde.ValuesAsEnumerable().Count().Should().Be(6);
+            });
+
     }
 }
