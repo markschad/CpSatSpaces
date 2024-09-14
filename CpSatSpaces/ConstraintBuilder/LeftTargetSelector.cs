@@ -38,6 +38,12 @@ public sealed class LeftTargetSelectorIntVar(CpModel model, VarSpace<IntVar> lef
             return leftSideConstraintVar;
         });
     }
+    
+    public IntersectionSpaceSelectorTwo<IntVar, TVar2> And<TVar2>(VarSpace<TVar2> space2)
+        where TVar2 : IntVar
+    {
+        return new IntersectionSpaceSelectorTwo<IntVar, TVar2>(model, leftSpace, space2);
+    }
 }
 
 public sealed class LeftTargetSelectorBoolVar(CpModel model, VarSpace<BoolVar> leftSpace)
@@ -108,5 +114,11 @@ public sealed class LeftTargetSelectorBoolVar(CpModel model, VarSpace<BoolVar> l
 
             return leftSideConstraintVar;
         });
+    }
+    
+    public IntersectionSpaceSelectorTwo<BoolVar, TVar2> And<TVar2>(VarSpace<TVar2> space2)
+        where TVar2 : IntVar
+    {
+        return new IntersectionSpaceSelectorTwo<BoolVar, TVar2>(model, leftSpace, space2);
     }
 }

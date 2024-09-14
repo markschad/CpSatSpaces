@@ -38,4 +38,9 @@ model.AddSpaceConstraint()
     .CanBeTrue()
     .If(employeeQualificationAllocation)
     .HasTrueCountOfAtleast(1);
+
+
+model.AddSpaceConstaint()
+    .InWhich(spaceAbc)
+
 ```

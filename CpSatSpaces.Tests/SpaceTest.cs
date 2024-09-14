@@ -235,4 +235,21 @@ public class SpaceTest
         }
     }
 
+    [Fact]
+    public void GetParentSpaceMapping_WithNoArgs_ReturnsExpectedValue()
+    {
+        // Arrangee
+        var dimA = new Dimension(4, "A");
+        var dimB = new Dimension(5, "B");
+        var dimC = new Dimension(6, "C");
+        
+        var parentSpace = new Space<int>(dimA, dimB, dimC);
+        var subSpace = parentSpace.GetSubSpace(new SpatialIndex(new DimensionIndex(dimA, 2)));
+        
+        // Act
+        var mapping = subSpace.GetParentSpatialIndex();
+        
+        // Assert
+        mapping.GetDimensionIndex(dimA).Should().Be(2);
+    }
 }

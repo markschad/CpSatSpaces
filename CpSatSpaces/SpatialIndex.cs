@@ -84,7 +84,7 @@ public readonly struct SpatialIndex : IEnumerable<DimensionIndex>, ISpace, IEqua
     /// Returns a new <see cref="SpatialIndex"/> which is the result of extracting the given dimensions from this
     /// spatial index. 
     /// </summary>
-    public SpatialIndex Extract(Dimension[] dimensions)
+    public SpatialIndex Extract(params Dimension[] dimensions)
     {
         var extractedIndices = DimensionIndices.Where(index => dimensions.Contains(index.Dimension)).ToArray();
         return new SpatialIndex(extractedIndices);

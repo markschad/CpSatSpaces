@@ -10,7 +10,8 @@ public static class CpSolverExtensions
         var sb = new StringBuilder();
         foreach (var siv in varSpace.ValuesAsEnumerable())
         {
-            var value = solver.Value(siv.GetValue());
+            var v = siv.GetValue();
+            var value = solver.Value(v);
             var text = $"{varSpace.GetName(siv.Index)} = {value}";
             sb.AppendLine(text);
         }
